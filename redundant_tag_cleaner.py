@@ -68,7 +68,7 @@ def clean_disctotal(files):
     Input: "files" - a list of files to be iterated over and cleaned up
     """
     for file in files:
-        single_disc = False
+        single_disc = False # If the album is not a single disc, keep the "discnumber" tag
         metadata = mutagen.File(file)
         if "disctotal" in metadata:
             if metadata["disctotal"][0] == u"1":
@@ -81,6 +81,7 @@ def clean_disctotal(files):
         if single_disc == True:
             if "discnumber" in metadata:
                 metadata.pop("discnumber")
+        metadata.save()
 
 def main():
     files = sys.argv[1:]
