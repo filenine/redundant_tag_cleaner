@@ -10,9 +10,8 @@ If the "artist" tag is the same for all of the files and the value of the
 "albumartist" tag is equal to the value of the "artist" tag, it deletes the
 "albumartist" tag for all audio files in the folder.
 
-Similarly, if the "disctotal" or "totaldiscs" tags have the value 1, the album
-only has one disc, and the program deletes both the "total" tag and the
-"discnumber" tag.
+Similarly, if the "disctotal", or "totaldiscs" tags have the value 1, the album
+only has one disc, and the program deletes both the "total" tag and the "disc"/"discnumber" tags.
 """
 
 import mutagen
@@ -62,7 +61,7 @@ def clean_albumartist(files):
 
 def clean_disctotal(files):
     """
-    Removes the "discnumber", "disctotal" and "totaldiscs" tags if either
+    Removes the "disc", "discnumber", "disctotal" and "totaldiscs" tags if either
     the "disctotal" or "totaldiscs" tags are equal to 1
 
     Input: "files" - a list of files to be iterated over and cleaned up
@@ -79,6 +78,8 @@ def clean_disctotal(files):
                 single_disc = True
                 metadata.pop("totaldiscs")
         if single_disc == True:
+            if "disc" in metadata:
+                metadata.pop("disc")
             if "discnumber" in metadata:
                 metadata.pop("discnumber")
         metadata.save()
